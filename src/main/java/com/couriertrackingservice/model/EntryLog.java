@@ -29,13 +29,8 @@ public class EntryLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String courierId;
-
-    @ManyToOne
-    @JoinColumn(name = "store_id")
-    private Store store;
-
+    private Long storeId;
     private LocalDateTime timestamp;
 
 }

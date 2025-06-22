@@ -2,6 +2,8 @@ package com.couriertrackingservice.controller;
 
 import java.util.List;
 
+import com.couriertrackingservice.common.model.ApiResponse;
+import com.couriertrackingservice.common.model.BaseController;
 import com.couriertrackingservice.model.CourierLocation;
 import com.couriertrackingservice.service.CourierService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/courier")
-public class CourierController {
+public class CourierController extends BaseController {
 
     private final CourierService service;
 
@@ -26,21 +28,22 @@ public class CourierController {
     }
 
     @PostMapping("/location")
-    public ResponseEntity<String> postLocation(@RequestBody CourierLocation location) {
+    public ApiResponse<String> addLocation(@RequestBody CourierLocation location) {
         service.addLocation(location);
-        return ResponseEntity.ok("Location saved");
+        return success("Location created");
     }
 
     @PostMapping("/location/batch")
-    public ResponseEntity<String> postLocationBatch(@RequestBody List<CourierLocation> locations) {
+    public ApiResponse<String> addLocationBatch(@RequestBody List<CourierLocation> locations) {
         for (CourierLocation location : locations) {
             service.addLocation(location);
         }
-        return ResponseEntity.ok("Batch of locations saved");
+        return success("Batch location created");
     }
 
     @GetMapping("/distance/{courierId}")
-    public ResponseEntity<Double> getDistance(@PathVariable String courierId) {
-        return ResponseEntity.ok(service.getTotalTravelDistance(courierId));
+    public ApiResponse<String> getDistance(@PathVariable String courierId) {
+        String formattedDistance = service.getTotalTravelDistance(courierId);
+        return success(formattedDistance);
     }
 }

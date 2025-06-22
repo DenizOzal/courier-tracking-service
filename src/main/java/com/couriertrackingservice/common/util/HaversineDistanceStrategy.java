@@ -1,4 +1,4 @@
-package com.couriertrackingservice.util;
+package com.couriertrackingservice.common.util;
 
 public class HaversineDistanceStrategy implements DistanceStrategy {
     public double calculate(double lat1, double lon1, double lat2, double lon2) {

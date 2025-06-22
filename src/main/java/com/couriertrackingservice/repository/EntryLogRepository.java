@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EntryLogRepository extends JpaRepository<EntryLog, Long> {
-    Optional<EntryLog> findTopByCourierIdAndStoreOrderByTimestampDesc(String courierId, Store store);
+    Optional<EntryLog> findTopByCourierIdAndStoreIdOrderByTimestampDesc(String courierId, Long storeId);
 }
