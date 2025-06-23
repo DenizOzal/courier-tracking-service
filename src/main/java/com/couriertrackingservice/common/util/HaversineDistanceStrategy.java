@@ -1,5 +1,8 @@
 package com.couriertrackingservice.common.util;
 
+import org.springframework.stereotype.Component;
+
+@Component("haversine")
 public class HaversineDistanceStrategy implements DistanceStrategy {
     public double calculate(double lat1, double lon1, double lat2, double lon2) {
         final int R = 6371000;

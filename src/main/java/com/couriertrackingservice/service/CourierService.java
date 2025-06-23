@@ -4,6 +4,7 @@ import static com.couriertrackingservice.common.model.ApiError.INTERNAL_ERROR;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.couriertrackingservice.common.exception.SystemException;
@@ -16,6 +17,8 @@ import com.couriertrackingservice.repository.EntryLogRepository;
 import com.couriertrackingservice.repository.StoreRepository;
 import com.couriertrackingservice.common.util.DistanceStrategy;
 import com.couriertrackingservice.common.util.HaversineDistanceStrategy;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,14 +26,24 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class CourierService {
 
     private final CourierLocationRepository courierRepo;
     private final StoreRepository storeRepo;
     private final EntryLogRepository entryLogRepo;
-    private DistanceStrategy distanceStrategy = new HaversineDistanceStrategy();
+    private final DistanceStrategy distanceStrategy;
+
+    public CourierService(CourierLocationRepository courierRepo,
+                          StoreRepository storeRepo,
+                          EntryLogRepository entryLogRepo,
+                          @Value("${distance.strategy}") String strategyName,
+                          Map<String, DistanceStrategy> strategyMap) {
+        this.courierRepo = courierRepo;
+        this.storeRepo = storeRepo;
+        this.entryLogRepo = entryLogRepo;
+        this.distanceStrategy = Optional.ofNullable(strategyMap.get(strategyName)).orElseThrow(() -> new IllegalArgumentException("Unknown distance strategy: " + strategyName));
+    }
 
     @Transactional
     public void addLocation(CourierLocation location) {

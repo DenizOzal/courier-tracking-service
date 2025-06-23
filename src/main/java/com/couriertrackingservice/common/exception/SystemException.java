@@ -9,7 +9,6 @@ import lombok.Getter;
 public class SystemException extends RuntimeException {
 
     private final String code;
-
     private final ErrorType type;
 
     public SystemException(ApiError error) {
