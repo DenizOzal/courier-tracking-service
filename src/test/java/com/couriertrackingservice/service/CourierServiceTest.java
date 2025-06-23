@@ -12,7 +12,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
@@ -63,7 +62,7 @@ class CourierServiceTest {
         when(courierRepo.findByCourierIdOrderByTimestampAsc("c1"))
                 .thenReturn(Arrays.asList(l1, l2));
         String result = courierService.getTotalTravelDistance("c1");
-        assertTrue(result.endsWith("m"));
+        assertTrue(result.endsWith("meters"));
     }
 
     @Test

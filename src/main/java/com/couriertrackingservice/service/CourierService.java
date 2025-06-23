@@ -59,7 +59,6 @@ public class CourierService {
        }
     }
 
-
     public String getTotalTravelDistance(String courierId) {
         try {
             List<CourierLocation> points = courierRepo.findByCourierIdOrderByTimestampAsc(courierId);
@@ -69,7 +68,7 @@ public class CourierService {
                     points.get(i - 1).getLat(), points.get(i - 1).getLng(),
                     points.get(i).getLat(), points.get(i).getLng());
             }
-            return String.format("%.2f m", total);
+            return String.format("%.2f meters", total);
         } catch (Exception e) {
             log.error("Failed to calculate total travel distance for courierId={} - error: {}", courierId, e.getMessage(), e);
             throw new SystemException(INTERNAL_ERROR);
